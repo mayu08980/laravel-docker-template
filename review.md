@@ -16,11 +16,12 @@ LaravelのORM（テーブルのレコードをオブジェクトとして扱う�
 
 ### 配列の代わりにCollectionクラスを使用するメリットは
 - Laravelの、ORM (Object-Relational Mapping) の一つEloquentを用いることでDBの操作を行うことができる。
-- ORMとは？
-- プログラミング言語のClassとデータベースのテーブルをマッピング（関連付け）することでSQLを直接操作することなく
-データベースとマッピングされたClassのメソッドを用いることでDBとやり取りを行うことができる。
+- データベースの一行をメソッドを持ったmodelクラスのインスタンスとして扱えるようになるので、可読性が上がる。
 - メモ
-★Laravelでは、データベースのテーブルとマッピングするClassがModelに当たる。
+- ORMとは？
+- プログラミング言語のClassとデータベースのテーブルをマッピング（関連付け）することでSQLを直接操作することなく、
+データベースとマッピングされたClassのメソッドを用いることでDBとやり取りを行うことができる。
+-  Laravelでは、データベースのテーブルとマッピングするClassがModelに当たる。
 -  Laravelが標準でCollectionを返す
 -  中身がモデルだから機能が使える
 -  リレーションも全部Collection
@@ -28,20 +29,19 @@ LaravelのORM（テーブルのレコードをオブジェクトとして扱う�
 - 【第1引数】
 指定するもの： 表示したいBladeファイルの名前（resources/views フォルダからのパス）。
 - 【第2引数】
-指定するもの： 画面に渡したいデータを 「連想配列」 の形で指定。
+指定するもの： 画面に渡したいデータを 「連想配列」 の形で指定。  
+controllerで入力された値を、指定したテンプレートに流し込み、最終的なHTMLを生成してブラウザに返す処理をしている。  
+【メモ】  
+例： ['todos' => $todos]  
 
-例： ['todos' => $todos]
-
-左側の 'todos' が、Blade側で使う時の変数名となる。
+左側の 'todos' が、Blade側で使う時の変数名となる。  
 右側の $todos が、コントローラーで取得した実際のデータ
-「Blade側でどの変数名として扱うかを明確にしている。['todos' => $todos] と渡すことで、Blade側では $todos という変数名でデータの塊（Collection）を扱えるようになる
-- メモ
-【何をしているか】
-コントローラーで用意したデータを、指定したBladeテンプレートに流し込み、最終的なHTMLを生成してブラウザに返す処理をしている。
+「Blade側でどの変数名として扱うかを明確にしている。['todos' => $todos] と渡すことで、Blade側では $todos という変数名でデータの塊（Collection）を扱えるようになる。
+
 ### index.blade.phpの$todos・$todoに代入されているものは何か
 - $todosに代入されている値
 →Controllerにて取得したCollectionインスタンスが代入されている
-例： 'todo.index' （これは resources/views/todo/index.blade.php を指す
+例： 'todo.index' （これはresources/views/todo/index.blade.php を指す）
 
 ## Todo作成機能
 
@@ -51,18 +51,23 @@ LaravelのORM（テーブルのレコードをオブジェクトとして扱う�
 - 引数に指定した連想配列のデータをモデルの属性へ一括代入するメソッドなので、・formから送信された値を$todoへ一括代入している。
 
 ### $fillableは何のために設定しているか
-- 一括代入のデメリットとして、脆弱性があげられる。name="user_id"のinputタグを生成して、被害者のユーザIDと犯行予告などの悪意のある投稿を不正に送信できたりする。
+- 一括代入のデメリットとして、脆弱性があげられる。name="user_id"のinputタグを生成して、被害者のユーザIDと犯行予告などの悪意のある投稿を不正に送信できる。  
 このような攻撃を防ぐために、代入できる項目に制限をかける必要がある。今回はtodo.phpでtodosには'content'しか代入できないように制限をかけている。
-また、User.php でもユーザーが遅れるデータに制限をかけている。
+また、User.php でもユーザーが送れるデータに制限をかけている。
 ### saveメソッドで実行しているSQLは何か
 - オブジェクトの状態をDBに保存するINSERT文を実行している。
 ### redirect()->route()は何をしているか
-- ルートにリダイレクトさせる処理
+- ルートにリダイレクトさせる処理をしている。
 - todo.index という名前のルートへリダイレクトする処理で、そのルートに対応するコントローラのメソッドが実行され、結果としてビューが表示されるようにしている。
 - 関係する処理としては、scr/routes/web.phpに記載されている
 - Route::get('/todo', [TodoController::class, 'index'])->name('todo.index');
-- 上記の記述でTodoControllerのindexメソッドを呼び、操作することができる。今回はindexメソッド内のtodoモデルを取得しViewに表示することができる。例えばcreate画面にて「カレー」と入力されたら、todoTodoControllerのindexメソッド内のtodoモデルから全件取得して一覧表示画面に戻り、「カレー」と新たに表示される仕組み
-順番としては「カレー」と新規作成画面（create）で入力されpost（送信）される→scr/routes/web.phpへ送られる→TodoController の store メソッドで「カレー」を Todoモデルに保存→'todo.index'ルートが実行される。→todoTodoControllerのindexメソッド内のtodoモデルから全件取得して一覧表示画面に戻り、「カレー」と一覧に新たに表示される
+- 上記の記述でTodoControllerのindexメソッドを呼び、操作することができる。今回はindexメソッド内のtodoモデルを取得しViewに表示することができる。  
+処理の順番としては、下記の通り  
+1.新規作成画面（create）で入力された値がpost（送信）され、scr/routes/web.phpへ送られる  
+2.TodoController の store メソッドで送信された値をTodoモデルに保存  
+3.'todo.index'ルートが実行される  
+4.todoTodoControllerのindexメソッド内のtodoモデルから全件取得して一覧表示画面に戻り、createから送信された値が一覧表示画面（View）に表示される。
+
 ## その他
 
 ### テーブル構成をマイグレーションファイルで管理するメリット
