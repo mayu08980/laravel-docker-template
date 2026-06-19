@@ -35,7 +35,7 @@
            <div class="col-md-8">
             <div class="card">
               <div class="card-header">ToDo作成</div>
-              <div class="card-body">  
+              <div class="card-body">
                 <form method="post" action="{{ route('todo.store') }}">
                   @csrf
                   <div class="form-group row">

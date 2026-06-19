@@ -26,8 +26,8 @@
     </nav>
     <main class="py-4">
       <div class="container"> -->
-@extends('layouts.base') 
-@section('content') 
+@extends('layouts.base')
+@section('content')
         <div class="row justify-content-center">
           <div class="col-md-8">
             <p class="text-left">

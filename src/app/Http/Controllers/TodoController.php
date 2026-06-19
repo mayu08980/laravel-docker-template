@@ -1,19 +1,18 @@
 <?php
 
 namespace App\Http\Controllers;
-
 use Illuminate\Http\Request;
 use App\Todo;
-
 class TodoController extends Controller
 {
-    private $todo; 
+    private $todo;
 
     public function __construct(Todo $todo)
     {
          $this->todo = $todo;
+
     }
-    
+
     public function index()
     {
         $todos = $this->todo->all();
@@ -22,18 +21,16 @@ class TodoController extends Controller
     }
     public function create()
     {
-        // TODO: 第1引数を指定
-        return view('todo.create'); 
-
+        return view('todo.create');
     }
-   
 
-    public function store(Request $request) // 追記
+
+    public function store(Request $request)
     {
         $inputs = $request->all();
-        $this->todo->fill($inputs); // 変更
-        $this->todo->save(); // 変更
-        return redirect()->route('todo.index'); // 追記
+        $this->todo->fill($inputs);
+        $this->todo->save();
+        return redirect()->route('todo.index');
     }
 
     public function show($id)
@@ -41,6 +38,20 @@ class TodoController extends Controller
         $todo = $this->todo->find($id);
         return view('todo.show', ['todo' => $todo]);
     }
+
+    public function edit($id)
+{
+        $todo = $this->todo->find($id);
+        return view('todo.edit', ['todo' => $todo]);
 }
 
+public function update(Request $request, $id) 
+{
+    // TODO: リクエストされた値を取得
+    $inputs = $request->all();
+    $todo = $this->todo->find($id);
+    $todo->fill($inputs)->save();
+    return redirect()->route('todo.show', $todo->id);
+}
+}
 
