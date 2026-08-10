@@ -7,16 +7,16 @@
         ToDo詳細
       </div>
       <div class="card-body">
-        <h5 class="card-title">{{ $todo->content }}</h5>
-        <p class="card-text">作成日時：{{ $todo->created_at }}</p>
+        <h5 class="card-title">{{ $list->content }}</h5>
+        <p class="card-text">作成日時：{{ $list->created_at }}</p>
       </div>
 <div class="row">
   <div class="col-auto">
     <!-- TODO: 以下のhref属性にroute()を使用してリンクを指定 -->
-    <a href="{{ route('todo.edit', $todo->id) }}" class="btn btn-info">編集する</a>
+    <a href="{{ route('todo.edit', $list->id) }}" class="btn btn-info">編集する</a>
   </div>
   <div class="col-auto">
-    <form method="POST" action="{{ route('todo.delete', $todo->id) }}">
+    <form method="POST" action="{{ route('todo.delete', $list->id) }}">
       @csrf
       @method('DELETE')
       <button type="submit" class="btn btn-danger">削除する</button>
