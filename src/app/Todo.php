@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Todo extends Model
 {
-    use SoftDeletes; 
+    use SoftDeletes;
     protected $table = 'todos';
 
     protected $fillable = [
