@@ -10,23 +10,22 @@ class TodoController extends Controller
 
     public function __construct(Todo $todo)
     {
-         $this->todo = $todo;
-
+        $this->todo = $todo;
     }
 
     public function index()
     {
         $todos = $this->todo->all();
-
-        return view('todo.index', ['todos' => $todos]);
+        return view('todo.index', ['list' => $todos]);
     }
+
     public function create()
     {
         return view('todo.create');
     }
 
 
-    public function store(TodoRequest $request) 
+    public function store(TodoRequest $request)
     {
         $inputs = $request->all();
         $this->todo->fill($inputs);
@@ -37,13 +36,13 @@ class TodoController extends Controller
     public function show($id)
     {
         $todo = $this->todo->find($id);
-        return view('todo.show', ['todo' => $todo]);
+        return view('todo.show', ['list' => $todo]);
     }
 
     public function edit($id)
     {
         $todo = $this->todo->find($id);
-        return view('todo.edit', ['todo' => $todo]);
+        return view('todo.edit', ['list' => $todo]);
     }
 
 public function update(TodoRequest $request, $id)
@@ -54,6 +53,7 @@ public function update(TodoRequest $request, $id)
         $todo->save();
         return redirect()->route('todo.show', $todo->id);
     }
+
 public function delete($id)
     {
         $todo = $this->todo->find($id);
