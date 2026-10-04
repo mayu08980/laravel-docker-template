@@ -8,8 +8,7 @@
 ### findメソッドの引数に指定しているIDは何のIDか
 - find()メソッドの引数に指定しているIDは、データベースのidカラム（主キー）の値で、取得したいレコードを特定するためのID。
 ### findメソッドで実行しているSQLは何か
-- $todo = $this->todo->find($id);によって、$this->todo に入っているTodoモデルの find() メソッドを使って、指定した $id のTodoを1件取得し、その取得結果を $todo に代入する。  
-例えばfind22の場合、SELECT * FROM todos WHERE id = 22;というSQLを実行し、todos テーブルから、id が22のレコードを取得する。  
+- todos テーブルから、指定した $id に一致するレコードを取得するSQLを実行する。例えば、find(22) の場合は、SELECT * FROM todos WHERE id = 22; となる。  
 ### findメソッドで取得できる値は何か
 - 主キーに一致する1件のレコードをEloquentモデルのインスタンスとして取得する。該当データがなければ null を返す。
 ### saveメソッドは何を基準にINSERTとUPDATEを切り替えているのか
