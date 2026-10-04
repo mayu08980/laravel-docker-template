@@ -10,7 +10,7 @@
 ### findメソッドで実行しているSQLは何か
 - todos テーブルから、指定した $id に一致するレコードを取得するSQLを実行する。例えば、find(22) の場合は、SELECT * FROM todos WHERE id = 22; となる。  
 ### findメソッドで取得できる値は何か
-- 主キーに一致する1件のレコードをEloquentモデルのインスタンスとして取得する。該当データがなければ null を返す。
+- 主キーに一致する1件のレコードを、App\Todo（Todoモデル）のインスタンスとして取得する。該当するデータがない場合は null を返す。
 ### saveメソッドは何を基準にINSERTとUPDATEを切り替えているのか
 - save() メソッドは、モデルの exists プロパティ（データベースに存在するかどうか）を基準に、INSERT と UPDATE を切り替えている。
 - exists = false → INSERT、exists = true → UPDATE
