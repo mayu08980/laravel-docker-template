@@ -3,8 +3,9 @@
 ## Todo編集機能
 
 ### @method('PUT')を記述した行に何が出力されているか
-- HTMLはpostとgetメソッドしか使用できないため、@method('PUT')を使用することにより、`<input type="hidden" name="_method" value="PUT">`と出力される。  
-結果、フォーム送信時に、_methodの値としてPUTがLaravelに送られ、LaravelがそのリクエストをPUTリクエストとして扱い、Route::put()で定義されたルートに処理を渡すことができる。
+- `<input type="hidden" name="_method" value="PUT">`と出力される。  
+HTMLのフォームではGETとPOSTメソッドが基本的に使用されるため、@method('PUT')を使用することで、PUTリクエストを指定するための<'input'>要素が出力される。  
+フォーム送信時に、_methodの値としてPUTがLaravelに送信され、LaravelがそのリクエストをPUTリクエストとして扱い、Route::put()で定義されたルートに処理を渡すことができる。
 ### findメソッドの引数に指定しているIDは何のIDか
 - find()メソッドの引数に指定しているIDは、データベースのidカラム（主キー）の値で、取得したいレコードを特定するためのID。
 ### findメソッドで実行しているSQLは何か
